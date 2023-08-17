@@ -128,3 +128,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # DEFAULT_FROM_EMAIL = '4yma_dan@gmail.ru'                               # список почт получателей по уполчанию
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'     # устанавливает командную строку
                                                                         # качестве почтового бэкенда Django для целей тестирования
+
+
+CELERY_BROKER_URL = "redis://localhost:6379"            # Эти две записи дают вашему экземпляру приложения Celery достаточно информации,
+CELERY_RESULT_BACKEND = "redis://localhost:6379"         # чтобы знать, куда отправлять сообщения и куда записывать результаты.
+                                                        # Поскольку вы используете Redis как в качестве брокера сообщений,
+                                                        # так и в качестве серверной части базы данных,
+                                                        # оба URL-адреса указывают на один и тот же адрес.
