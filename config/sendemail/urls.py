@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import FeedbackFormView, SuccessView
+from .views import FeedbackFormView, success_view
 
 urlpatterns = [
-    path('success/', SuccessView.as_view(), name='success'),
+    path('contact/success/', success_view, name='success'),
     path('contact/', FeedbackFormView.as_view(), name='contact'),
 
 ]

@@ -1,6 +1,5 @@
 # from config.settings import RECIPIENTS_EMAIL, DEFAULT_FROM_EMAIL
-
-from django.views.generic.base import TemplateView
+from django.http import HttpResponse
 from django.views.generic.edit import FormView
 
 from .forms import ContactForm
@@ -16,8 +15,8 @@ class FeedbackFormView(FormView):
         return super().form_valid(form)
 
 
-class SuccessView(TemplateView):
-    template_name = "success.html"
+# class SuccessView(TemplateView):
+#     template_name = "sendemail/success.html"
 
 # def contact_view(request):
 #
@@ -44,5 +43,5 @@ class SuccessView(TemplateView):
 #         return HttpResponse('Неверный запрос.')
 #     return render(request, "contact.html", {'form': form})
 #
-# def success_view(request):
-#     return HttpResponse('Приняли! Спасибо за вашу заявку.')
+def success_view(request):
+    return HttpResponse('Приняли! Спасибо за вашу заявку.')

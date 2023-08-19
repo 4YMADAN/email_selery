@@ -8,10 +8,17 @@ class ContactForm(forms.Form):
     subject = forms.CharField(label='Тема', required=True)
     message = forms.CharField(label='Сообщение', widget=forms.Textarea, required=True)
 
+    # def send_email(self):
+    #     send_feedback_email_task.delay(
+    #         self.cleaned_data["from_email"], self.cleaned_data["message"]
+    #     )
     def send_email(self):
-        send_feedback_email_task.delay(
+        send_feedback_email_task.apply_async(args=[
             self.cleaned_data["from_email"], self.cleaned_data["message"]
+        ]
         )
+
+
 
 
 
