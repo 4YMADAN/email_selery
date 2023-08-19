@@ -1,31 +1,48 @@
 # from config.settings import RECIPIENTS_EMAIL, DEFAULT_FROM_EMAIL
-from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
 
 from .forms import ContactForm
 
 
-def contact_view(request):
+class FeedbackFormView(FormView):
+    template_name = "contact.html"
+    form_class = ContactForm
+    success_url = "success/"
 
-    if request.method == 'GET':         # если метод GET, вернем форму
-        form = ContactForm()
-    elif request.method == 'POST':      # если метод POST, проверим форму и отправим письмо
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            subject = form.cleaned_data['subject']
-            from_email = form.cleaned_data['from_email']
-            message = form.cleaned_data['message']
-            try:
-                send_mail(f'{subject} от {from_email}', message,        # отправка сообщений
-                          from_email,                                    # адрес отправителя
-                          ['4yma_dan@mail.ru'])                         # адрес получателя
-            except BadHeaderError:                                  # исключение для перехвата
-                return HttpResponse('Ошибка в теме письма.')
-            return redirect('success')
-    else:
-        return HttpResponse('Неверный запрос.')
-    return render(request, "contact.html", {'form': form})
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
 
-def success_view(request):
-    return HttpResponse('Приняли! Спасибо за вашу заявку.')
+
+class SuccessView(TemplateView):
+    template_name = "success.html"
+
+# def contact_view(request):
+#
+#     if request.method == 'GET':         # если метод GET, вернем форму
+#         form = ContactForm()
+#     elif request.method == 'POST':      # если метод POST, проверим форму и отправим письмо
+#         form = ContactForm(request.POST)
+#         if form.is_valid():
+#             form.cleaned_data['subject']
+#             from_email = form.cleaned_data['from_email']
+#             message = form.cleaned_data['message']
+#             try:
+#                 form.send_email()
+#                 # return super().form_valid(form)
+#
+#
+#                 # send_mail(f'{subject} от {from_email}', message,
+#                 #           from_email,
+#                 #           ['4yma_dan@mail.ru'])
+#             except BadHeaderError:                                  # исключение для перехвата
+#                 return HttpResponse('Ошибка в теме письма.')
+#             return redirect('success')
+#     else:
+#         return HttpResponse('Неверный запрос.')
+#     return render(request, "contact.html", {'form': form})
+#
+# def success_view(request):
+#     return HttpResponse('Приняли! Спасибо за вашу заявку.')
