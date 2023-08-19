@@ -5,7 +5,7 @@ import os
 from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')   # этот код скопирован с manage.py
-                                                                            # он установит модуль настроек по умолчанию Django для приложения 'celery'.
+                                                                     # он установит модуль настроек по умолчанию Django для приложения 'celery'.
 
 app = Celery("config")
 app.config_from_object("django.conf:settings", namespace="CELERY")

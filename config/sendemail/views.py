@@ -1,5 +1,5 @@
 # from config.settings import RECIPIENTS_EMAIL, DEFAULT_FROM_EMAIL
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.generic.edit import FormView
 
 from .forms import ContactForm
@@ -44,4 +44,7 @@ class FeedbackFormView(FormView):
 #     return render(request, "contact.html", {'form': form})
 #
 def success_view(request):
-    return HttpResponse('Приняли! Спасибо за вашу заявку.')
+    return render(request, 'success.html')
+
+def index(request):
+    return render(request, 'index.html')
